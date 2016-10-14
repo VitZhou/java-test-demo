@@ -1,14 +1,30 @@
 # java-test-demo
 
 JUnit+Mockito+AssertJ+h2+PowerMock+DbUnit+Cucumber+SpringBoot集成的demo
+
+
+如果您第一次接触tdd,bdd那么建议您先阅读[文档](https://www.gitbook.com/book/henryz/java-test-learning/details)
 ##介绍
 >如果想运行function-test,请按照以下步骤操作:
 >1. 本地运行一个PostgreSQL
 >2. 创建一个test库
 >3. 在tes库中运行server/test/resource/sql/create_table.sql文件
 >4. 运行server中的Application类
+>5. 运行login.feature文件
 
 - server:这里模拟了一个登录功能,主要展现的是单元测试的demo
 - function-test:这里是bdd的demo
 
-##[文档地址](https://www.gitbook.com/book/henryz/java-test-learning/details)
+##说明
+tdd,bdd的概念是什么?这个问题不再这里介绍,大家可以百度到很多.我相信大家都能百度到一些单元测试,行为驱动测试的概念,但是如何做呢？怎样才能做好测试?单元测试的目录是什么?由于国内百度的技术资料都是参差不齐,有的甚至是错误的.所以这里给大家写了一个demo,让大家可以直观的感受,看到tdd,bdd的具体做法
+
+可能很多人都能准确的答出来单元测试的目的是为了代码质量,为了回归,为了...等,但是大部分人不知道,它也是持续集成的一个前提,保证。所以我们这里是不允许maven忽略测试的(jenkins打包时会通过maven运行单元测试,在运行的过程中单元测试失败会导致打包失败).
+
+在server中,分开了三个目录access,business,resource。access主要负责参数接收,校验;business层负责业务逻辑;resource层负责资源获取.之所以这样做,是因为tdd是需要架构来支撑的,一个好的架构可以方便写单元测试.跟很多人聊过(有的甚至是十几年经验的总监),他们都说tdd很难推,我想除了个人能力,组织架构之外,系统架构也是一个原因.
+
+你可以看到在test下面,access层只测试的参数正确与否,business层只测试了业务逻辑,resource层只测试了数据读取是否正确.这样层次清晰,测试也明确;你也会看到integrate包,它的存在是有原因的:在单元测试的世界中java的最小单元是一个方法,那如果我们把它比作是传统的汽车制造,那它就是一颗螺丝,我们首先要保证每颗螺丝的质量过关,但是它们组装出来的汽车未必质量过关,所以需要有一个测试整辆汽车的测试,也就是集成测试.这样就全方位的覆盖到了整个系统的细节
+
+在function-test中.有一个很重要的概念,叫数据准备,数据清场.所以你会看到在@Befor中的那些数据备份,＠When中的数据准备,@After中的数据回滚(这里再强调一遍,bdd的初衷是用来打通产品,开发,测试的桥梁,从而实现目标导向,而不是用来做自动化测试的)
+
+最后,关于mock:
+在单元测试中,你所测试的单元是你的关注的目标,但是它又依赖了其他的东西(不是你所关注的),否则它没法运行.你只想测试你要测试的测试目标是否正确,而不关注它的依赖是否正确。这个时候你就mock它的依赖,指定它运行你的测试目标所需要的它返回的结果.(这里可能比较难以理解,大家可以看business的测试)
