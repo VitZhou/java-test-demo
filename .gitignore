@@ -1,0 +1,7 @@
+.*
+!.gitignore
+target/
+*.iml
+logs/
+*.releaseBackup
+*.versionsBackup

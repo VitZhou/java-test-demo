@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<jmxConfigurator />
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- 典型的日志pattern -->
+		<encoder>
+			<pattern>%date{HH:mm:ss.SSS} %highlight([%thread] %-5level %logger{36} - %msg%n)</pattern>
+		</encoder>
+	</appender>
+
+
+	<!-- 这些日志不要打印debug，不然数量太多 -->
+	<logger name="org.springframework" level="WARN" />
+	<logger name="org.spring" level="WARN" />
+	<logger name="org.hibernate" level="WARN" />
+	<logger name="io.netty" level="WARN" />
+	<logger name="org.eclipse.jetty" level="WARN" />
+	<logger name="jndi" level="WARN" />
+	<logger name="redis.clients" level="WARN" />
+	<logger name="application" level="WARN" />
+	<logger name="com.orbitz.consul.cache.ConsulCache" level="OFF" />
+
+	<!-- root -->
+	<root level="INFO">
+		<appender-ref ref="console" />
+	</root>
+</configuration>
