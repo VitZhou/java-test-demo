@@ -9,7 +9,7 @@ JUnit+Mockito+AssertJ+h2+PowerMock+DbUnit+Cucumber+SpringBoot集成的demo
 >1. 本地运行一个PostgreSQL
 >2. 创建一个test库
 >3. 在tes库中运行server/test/resource/sql/create_table.sql文件
->4. 运行server中的Application类
+>4. 运行server中的Application类(记得去掉注释)
 >5. 运行login.feature文件
 
 - server:这里模拟了一个登录功能,主要展现的是单元测试的demo
