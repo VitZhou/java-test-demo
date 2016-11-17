@@ -1,7 +1,7 @@
-package com.test.demo.server.resource;
+package com.test.demo.server.integrate;
 
 import com.test.demo.server.ApplicationTest;
-import com.test.demo.server.resource.entity.User;
+import com.test.demo.server.access.DemoAccess;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -9,19 +9,17 @@ import org.junit.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.util.Optional;
-
+import static com.test.demo.commons.DemoConstant.LOGIN_FAIL;
+import static com.test.demo.commons.DemoConstant.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
-public class DemoResourceTest {
+public class DemoIntegrate {
     private static ConfigurableApplicationContext applicationContext;
-    private static DemoResource resource;
-
+    private static DemoAccess demoAccess;
     @BeforeClass
     public static void setUp() throws Exception {
         applicationContext = SpringApplication.run(ApplicationTest.class);
-        resource = applicationContext.getBean(DemoResource.class);
+        demoAccess = applicationContext.getBean(DemoAccess.class);
     }
 
     @AfterClass
@@ -31,17 +29,16 @@ public class DemoResourceTest {
     }
 
     @Test
-    public void test_findByName() throws Exception {
-        Optional<User> jedi = resource.findByName("jedi");
-        //assertj
-        assertThat(jedi.get()).isNotNull();
-        assertThat(jedi.isPresent()).isTrue();
+    public void test_login(){
+        String login = demoAccess.login("jedi", "abc");
+        assertThat(login).isEqualTo(SUCCESS);
     }
 
     @Test
-    public void test_findByName_not_exist() throws Exception {
-        Optional<User> jedi = resource.findByName("jedi_not_exist");
-        //assertj
-        assertThat(jedi.isPresent()).isFalse();
+    public void test_login_fail(){
+        String login = demoAccess.login("jedi", "abcd");
+        assertThat(login).isEqualTo(LOGIN_FAIL);
     }
+
+
 }

@@ -1,9 +1,7 @@
-package com.test.demo.server.integrate;
+package com.test.demo.server.resource;
 
-import com.test.demo.commons.DemoConstant;
-import com.test.demo.server.Application;
 import com.test.demo.server.ApplicationTest;
-import com.test.demo.server.access.DemoAccess;
+import com.test.demo.server.resource.entity.User;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -11,17 +9,19 @@ import org.junit.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import static com.test.demo.commons.DemoConstant.LOGIN_FAIL;
-import static com.test.demo.commons.DemoConstant.SUCCESS;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DemoResource {
+
+public class DemoIntegrateTest {
     private static ConfigurableApplicationContext applicationContext;
-    private static DemoAccess demoAccess;
+    private static DemoResource resource;
+
     @BeforeClass
     public static void setUp() throws Exception {
         applicationContext = SpringApplication.run(ApplicationTest.class);
-        demoAccess = applicationContext.getBean(DemoAccess.class);
+        resource = applicationContext.getBean(DemoResource.class);
     }
 
     @AfterClass
@@ -31,14 +31,17 @@ public class DemoResource {
     }
 
     @Test
-    public void test_login(){
-        String login = demoAccess.login("jedi", "abc");
-        assertThat(login).isEqualTo(SUCCESS);
+    public void test_findByName() throws Exception {
+        Optional<User> jedi = resource.findByName("jedi");
+        //assertj
+        assertThat(jedi.get()).isNotNull();
+        assertThat(jedi.isPresent()).isTrue();
     }
 
     @Test
-    public void test_login_fail(){
-        String login = demoAccess.login("jedi", "abcd");
-        assertThat(login).isEqualTo(LOGIN_FAIL);
+    public void test_findByName_not_exist() throws Exception {
+        Optional<User> jedi = resource.findByName("jedi_not_exist");
+        //assertj
+        assertThat(jedi.isPresent()).isFalse();
     }
 }

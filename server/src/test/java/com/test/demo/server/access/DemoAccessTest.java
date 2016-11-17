@@ -1,6 +1,5 @@
 package com.test.demo.server.access;
 
-import com.test.demo.commons.DemoConstant;
 import com.test.demo.server.business.DemoBusiness;
 
 import org.junit.After;
@@ -14,7 +13,6 @@ import static com.test.demo.commons.DemoConstant.LOGIN_FAIL;
 import static com.test.demo.commons.DemoConstant.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -48,6 +46,7 @@ public class DemoAccessTest {
         assertThat(login).isEqualTo(SUCCESS);
         verify(demoBusiness).login(userName, password);
     }
+
 
     @Test
     public void test_login_fail() throws Exception {
