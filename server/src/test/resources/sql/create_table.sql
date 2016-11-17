@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS test_user(
 );
 
 insert into test_user(name,password)
-values ('jedi','abcmd5')
+SELECT 'jedi', 'abcmd5' FROM DUAL WHERE NOT EXISTS(SELECT * FROM test_user WHERE name = 'jedi')
 
 

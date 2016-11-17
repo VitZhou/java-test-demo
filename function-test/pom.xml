@@ -73,7 +73,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <!--如果要跑junit将true改成false-->
-                    <skip>false</skip>
+                    <skip>true</skip>
                     <includes>
                         <include>**/*.java</include>
                         <testFailureIgnore>true</testFailureIgnore>
